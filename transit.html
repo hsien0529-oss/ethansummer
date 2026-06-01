@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>交通指引 — 七張站 → IVY / ACE</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24313d;
+      --muted: #667380;
+      --line: #d8e0e7;
+      --paper: #ffffff;
+      --bg: #f6f8f4;
+      --green-line: #008659;
+      --red-line: #e3002c;
+      --orange-line: #f8b61c;
+      --blue-line: #0070bd;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.6; }
+    main { width: min(900px, calc(100% - 28px)); margin: 0 auto; padding: 28px 0 60px; }
+    header { padding: 20px 0 18px; border-bottom: 3px solid var(--ink); }
+    h1 { margin: 0; font-size: clamp(1.7rem, 3.5vw, 2.6rem); line-height: 1.15; }
+    .subtitle { margin: 8px 0 0; color: var(--muted); font-size: 1rem; }
+    .nav-back { margin: 12px 0 0; font-size: .95rem; }
+    .nav-back a { color: #2b6f9f; text-decoration: none; font-weight: 700; margin-right: 14px; }
+    .nav-back a:hover { text-decoration: underline; }
+
+    .start {
+      margin: 24px 0 12px;
+      padding: 14px 18px;
+      background: #eaf3ec;
+      border-left: 5px solid var(--green-line);
+      border-radius: 6px;
+    }
+    .start strong { font-size: 1.1rem; }
+
+    .venue {
+      margin-top: 28px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 22px 24px;
+    }
+    .venue h2 {
+      margin: 0 0 6px;
+      font-size: 1.45rem;
+    }
+    .venue .addr {
+      margin: 4px 0 14px;
+      color: #3a4753;
+      font-size: 1rem;
+    }
+    .venue .addr code {
+      background: #f0f3f6;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: .95rem;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0 18px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: .95rem;
+      border: 2px solid transparent;
+    }
+    .btn-map { background: #1a73e8; color: #fff; }
+    .btn-map:hover { background: #1764d0; }
+    .btn-transit { background: #fff; color: #1a73e8; border-color: #1a73e8; }
+    .btn-transit:hover { background: #eaf2fd; }
+
+    .route {
+      margin-top: 8px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+    }
+    .route h3 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      color: #455362;
+    }
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: step;
+    }
+    .steps li {
+      position: relative;
+      padding: 10px 0 10px 44px;
+      border-bottom: 1px solid #eef2f5;
+    }
+    .steps li:last-child { border-bottom: 0; }
+    .steps li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: .92rem;
+    }
+    .line-tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: .82rem;
+      font-weight: 700;
+      margin: 0 4px;
+      vertical-align: 1px;
+    }
+    .line-green  { background: var(--green-line); }
+    .line-red    { background: var(--red-line); }
+    .line-orange { background: var(--orange-line); color: #4a3500; }
+    .line-blue   { background: var(--blue-line); }
+
+    .time-est {
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: #fbf4e2;
+      border-left: 5px solid #d4a843;
+      border-radius: 6px;
+      font-size: .98rem;
+    }
+    .time-est b { color: #7a5b00; }
+
+    .alt-route {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #f5f7f9;
+      border-radius: 6px;
+      font-size: .92rem;
+      color: #4a5560;
+    }
+
+    .tip-box {
+      margin: 32px 0 0;
+      padding: 16px 20px;
+      background: #eef5fa;
+      border-left: 5px solid #2b6f9f;
+      border-radius: 6px;
+    }
+    .tip-box h3 { margin: 0 0 8px; font-size: 1rem; }
+    .tip-box ul { margin: 6px 0 0 20px; padding: 0; }
+    .tip-box li { margin-bottom: 4px; font-size: .95rem; }
+
+    @media (max-width: 600px) {
+      .venue { padding: 18px 16px; }
+      .actions .btn { flex: 1; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>交通指引</h1>
+      <p class="subtitle">從新店七張站到上課地點（IVY / ACE）的捷運路線。</p>
+      <p class="nav-back">
+        <a href="index.html">← 清單檢視</a>
+        <a href="calendar.html">📅 月曆檢視</a>
+      </p>
+    </header>
+
+    <div class="start">
+      <strong>🟢 起點：捷運七張站 (G07)</strong>　松山新店線（綠線）
+    </div>
+
+    <!-- =================== IVY-Way =================== -->
+    <section class="venue" id="ivy">
+      <h2>🟧 IVY-Way SAT</h2>
+      <p class="addr"><code>100 臺北市中正區許昌街 24 號 4 樓</code>（台北車站旁）</p>
+
+      <div class="actions">
+        <a class="btn btn-map" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E5%8C%97%E5%B8%82%E4%B8%AD%E6%AD%A3%E5%8D%80%E8%A8%B1%E6%98%8C%E8%A1%9724%E8%99%9F4%E6%A8%93">📍 Google 地圖</a>
+        <a class="btn btn-transit" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/dir/?api=1&origin=%E4%B8%83%E5%BC%B5%E7%AB%99&destination=%E5%8F%B0%E5%8C%97%E5%B8%82%E4%B8%AD%E6%AD%A3%E5%8D%80%E8%A8%B1%E6%98%8C%E8%A1%9724%E8%99%9F&travelmode=transit">🚆 路線導航</a>
+      </div>
+
+      <div class="route">
+        <h3>建議捷運路線（1 次轉乘）</h3>
+        <ol class="steps">
+          <li>從<b>七張站</b> 搭<span class="line-tag line-green">綠</span>松山新店線往「松山」方向，到<b>中正紀念堂站</b>（7 站）。</li>
+          <li>在中正紀念堂站轉<span class="line-tag line-red">紅</span>淡水信義線往「淡水／北投」方向，搭 2 站到<b>台北車站</b>。</li>
+          <li>從台北車站 <b>M8 出口</b>（捷運西側 / 凱旋廣場）出站，沿許昌街往東步行約 3 分鐘到許昌街 24 號，進大樓搭電梯到 4 樓。</li>
+        </ol>
+        <div class="time-est">⏱ 預估全程：<b>約 30～35 分鐘</b>（含步行）</div>
+        <div class="alt-route">
+          💡 替代路線：七張 → 古亭轉橘線 → 忠孝新生轉藍線 → 台北車站，轉乘較多但有時候比較不擠。
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== ACE =================== -->
+    <section class="venue" id="ace">
+      <h2>🟨 Ace Education</h2>
+      <p class="addr"><code>106 臺北市大安區忠孝東路四段 169 號 10 樓之 2</code>（捷運忠孝復興站旁）</p>
+
+      <div class="actions">
+        <a class="btn btn-map" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/search/?api=1&query=%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A4%A7%E5%AE%89%E5%8D%80%E5%BF%A0%E5%AD%9D%E6%9D%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5169%E8%99%9F">📍 Google 地圖</a>
+        <a class="btn btn-transit" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/dir/?api=1&origin=%E4%B8%83%E5%BC%B5%E7%AB%99&destination=%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A4%A7%E5%AE%89%E5%8D%80%E5%BF%A0%E5%AD%9D%E6%9D%B1%E8%B7%AF%E5%9B%9B%E6%AE%B5169%E8%99%9F&travelmode=transit">🚆 路線導航</a>
+      </div>
+
+      <div class="route">
+        <h3>建議捷運路線（2 次轉乘）</h3>
+        <ol class="steps">
+          <li>從<b>七張站</b> 搭<span class="line-tag line-green">綠</span>松山新店線往「松山」方向，到<b>古亭站</b>（6 站）。</li>
+          <li>在古亭站轉<span class="line-tag line-orange">橘</span>中和新蘆線往「南勢角」反方向（往大橋頭／蘆洲、輔大），到<b>忠孝新生站</b>（2 站）。</li>
+          <li>在忠孝新生站轉<span class="line-tag line-blue">藍</span>板南線往「南港展覽館／頂埔反向」（往南港），到<b>忠孝復興站</b>（1 站）。</li>
+          <li>從忠孝復興站 <b>3 號出口</b>出來，沿忠孝東路四段往東步行約 2 分鐘到 169 號，搭電梯到 10 樓之 2。</li>
+        </ol>
+        <div class="time-est">⏱ 預估全程：<b>約 35～40 分鐘</b>（含轉乘與步行）</div>
+        <div class="alt-route">
+          💡 替代路線：七張 → 中正紀念堂轉紅線 → 台北車站轉藍線 → 忠孝復興。轉乘多 1 站但兩次轉乘動線較單純。
+        </div>
+      </div>
+    </section>
+
+    <div class="tip-box">
+      <h3>📌 共用提醒</h3>
+      <ul>
+        <li>實際路線與時間請以 <b>Google Maps</b> 即時導航為準（尖峰時段、班距差異）。</li>
+        <li>搭乘前先確認月台方向；轉乘時跟著「換乘」標示走。</li>
+        <li>悠遊卡 / 一卡通請事先儲值，避免進站時排隊。</li>
+        <li>如下雨或大行李，可考慮 Uber / 小黃，從七張到台北車站約 15～25 分鐘、到忠孝復興約 20～30 分鐘。</li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>

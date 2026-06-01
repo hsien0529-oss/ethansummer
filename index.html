@@ -178,6 +178,26 @@
       word-break: break-word;
     }
 
+    .venue-info {
+      margin: 0 0 12px;
+      padding: 10px 14px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--blue);
+      border-radius: 6px;
+      font-size: .98rem;
+      line-height: 1.55;
+    }
+    .venue-info strong { color: var(--ink); }
+    .venue-info a.transit-link {
+      color: var(--blue);
+      font-weight: 700;
+      text-decoration: none;
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+    .venue-info a.transit-link:hover { text-decoration: underline; }
+
     .month-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -268,8 +288,9 @@
     <header>
       <h1>Ethan 2026 暑期行事曆</h1>
       <p class="subtitle">整理畢業典禮、志工活動、補習課程、線上課與廣島專題。</p>
-      <p style="margin:10px 0 0;font-size:1rem;">
+      <p style="margin:10px 0 0;font-size:1rem;display:flex;gap:8px;flex-wrap:wrap;">
         <a href="calendar.html" style="display:inline-block;padding:10px 16px;background:#24313d;color:#fff;border-radius:8px;text-decoration:none;font-weight:700;">📅 月曆檢視（6/7/8 月）</a>
+        <a href="transit.html" style="display:inline-block;padding:10px 16px;background:#2b6f9f;color:#fff;border-radius:8px;text-decoration:none;font-weight:700;">🚆 交通指引</a>
       </p>
       <nav class="quick-list" aria-label="快速跳轉">
         <a href="#june">6 月行程</a>
@@ -317,6 +338,7 @@
         <h2>ACE 教室課程</h2>
         <span class="note">代數 2 與寫作課程，10:00-15:00</span>
       </div>
+      <p class="venue-info">📍 <strong>Ace Education</strong>：106 臺北市大安區忠孝東路四段 169 號 10 樓之 2<a class="transit-link" href="transit.html#ace">🚆 交通指引</a></p>
       <div class="table-wrap">
         <table>
           <thead>
@@ -347,6 +369,7 @@
         <h2>IVY 教室課程</h2>
         <span class="note">SAT 技巧班，09:00-16:00</span>
       </div>
+      <p class="venue-info">📍 <strong>Ivy-Way SAT</strong>：100 臺北市中正區許昌街 24 號 4 樓<a class="transit-link" href="transit.html#ivy">🚆 交通指引</a></p>
       <div class="table-wrap">
         <table>
           <thead>
@@ -378,6 +401,7 @@
         <h2>顧問安排</h2>
         <span class="note">IVY Andrew 顧問</span>
       </div>
+      <p class="venue-info">📍 <strong>Ivy-Way SAT</strong>：100 臺北市中正區許昌街 24 號 4 樓<a class="transit-link" href="transit.html#ivy">🚆 交通指引</a></p>
       <div class="table-wrap">
         <table>
           <thead>
