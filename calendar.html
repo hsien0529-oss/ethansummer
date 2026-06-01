@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ethan 2026 暑期月曆檢視</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24313d;
+      --muted: #667380;
+      --line: #d8e0e7;
+      --paper: #ffffff;
+      --bg: #f6f8f4;
+      --header-bg: #eef2f5;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    main {
+      width: min(1200px, calc(100% - 24px));
+      margin: 0 auto;
+      padding: 28px 0 60px;
+    }
+
+    header {
+      padding: 20px 0 18px;
+      border-bottom: 3px solid var(--ink);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .nav-back {
+      margin: 10px 0 0;
+      font-size: .95rem;
+    }
+    .nav-back a {
+      color: #2b6f9f;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .nav-back a:hover { text-decoration: underline; }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 22px 0 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      flex: 1;
+      min-width: 90px;
+      min-height: 52px;
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .15s ease;
+      font-family: inherit;
+    }
+    .tab:hover { border-color: #8da3b5; }
+    .tab.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .month-title {
+      margin: 24px 0 12px;
+      font-size: 1.3rem;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .day-header {
+      background: var(--header-bg);
+      padding: 10px 6px;
+      text-align: center;
+      font-weight: 700;
+      font-size: .92rem;
+      color: #384653;
+    }
+
+    .day-header.sun { color: #ad4f45; }
+    .day-header.sat { color: #2b6f9f; }
+
+    .day {
+      background: var(--paper);
+      min-height: 130px;
+      padding: 6px 6px 8px;
+      position: relative;
+      font-size: 12px;
+    }
+
+    .day.other {
+      background: #f5f7f9;
+      color: #b2bcc6;
+    }
+
+    .day-num {
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .day.sun .day-num { color: #ad4f45; }
+    .day.sat .day-num { color: #2b6f9f; }
+    .day.other .day-num { color: #b2bcc6; }
+
+    .event {
+      display: block;
+      font-size: 11px;
+      line-height: 1.25;
+      padding: 3px 6px;
+      border-radius: 4px;
+      margin: 2px 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .event-time {
+      font-variant-numeric: tabular-nums;
+      opacity: .85;
+      font-weight: 500;
+      margin-right: 3px;
+    }
+
+    .ev-graphite  { background: #e2e5e9; color: #3a4753; }
+    .ev-banana    { background: #fbe6a3; color: #7a5b00; }
+    .ev-tangerine { background: #fbd1ad; color: #8c4a13; }
+    .ev-grape     { background: #d9c3ec; color: #5d3286; }
+    .ev-lavender  { background: #ddd6f4; color: #4d3f87; }
+    .ev-basil     { background: #c6e3c7; color: #2a5a30; }
+    .ev-sage      { background: #d8e7c9; color: #3c5827; }
+    .ev-flamingo  { background: #fbd0db; color: #99304f; }
+    .ev-peacock   { background: #c5e1ee; color: #14587a; }
+    .ev-blueberry { background: #ccd1f3; color: #2a3690; }
+
+    .legend {
+      margin-top: 22px;
+      padding: 14px 16px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .legend h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .92rem;
+    }
+
+    .legend-swatch {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 720px) {
+      main { width: min(100% - 14px, 1200px); }
+      .day { min-height: 92px; padding: 4px; }
+      .day-num { font-size: 12px; }
+      .event {
+        font-size: 10px;
+        padding: 2px 4px;
+      }
+      .day-header { padding: 6px 2px; font-size: .82rem; }
+      .event-time { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Ethan 2026 暑期月曆檢視</h1>
+      <p class="subtitle">按月份顯示每日行程，色塊對應行事曆分類。</p>
+      <p class="nav-back"><a href="index.html">← 回清單檢視</a></p>
+      <div class="tabs" role="tablist" aria-label="選擇月份">
+        <button class="tab active" data-month="6" role="tab">6 月</button>
+        <button class="tab" data-month="7" role="tab">7 月</button>
+        <button class="tab" data-month="8" role="tab">8 月</button>
+      </div>
+    </header>
+
+    <h2 class="month-title" id="month-title">2026 年 6 月</h2>
+    <div class="calendar" id="calendar" aria-live="polite"></div>
+
+    <div class="legend">
+      <h3>分類顏色說明</h3>
+      <div class="legend-grid">
+        <div class="legend-item"><span class="legend-swatch ev-graphite"></span>6 月行程（畢業/志工/交通）</div>
+        <div class="legend-item"><span class="legend-swatch ev-banana"></span>ACE 代數 2 與寫作</div>
+        <div class="legend-item"><span class="legend-swatch ev-tangerine"></span>IVY SAT 技巧班</div>
+        <div class="legend-item"><span class="legend-swatch ev-grape"></span>Andrew 顧問</div>
+        <div class="legend-item"><span class="legend-swatch ev-lavender"></span>Daniel 英文線上課</div>
+        <div class="legend-item"><span class="legend-swatch ev-basil"></span>V5 營隊</div>
+        <div class="legend-item"><span class="legend-swatch ev-sage"></span>普台高中暑輔</div>
+        <div class="legend-item"><span class="legend-swatch ev-flamingo"></span>廣島專題 / 線上課</div>
+        <div class="legend-item"><span class="legend-swatch ev-peacock"></span>廣島來回機票</div>
+        <div class="legend-item"><span class="legend-swatch ev-blueberry"></span>機器人課程</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // key 為 "M-D"（month-day），value 為事件陣列
+    const EVENTS = {
+      // ===== 6 月 =====
+      '6-2':  [{t:'廣島線上課', time:'19:00', c:'flamingo'}],
+      '6-5':  [{t:'畢業典禮', time:'上午', c:'graphite'},
+               {t:'志工 (土匪山)', time:'下午', c:'graphite'}],
+      '6-6':  [{t:'志工 (土匪山)', time:'全天', c:'graphite'}],
+      '6-7':  [{t:'志工 (土匪山)', time:'全天', c:'graphite'}],
+      '6-8':  [{t:'志工 (土匪山)', time:'中午', c:'graphite'},
+               {t:'解散', time:'下午', c:'graphite'},
+               {t:'搭高鐵→新店', time:'晚上', c:'graphite'}],
+      '6-9':  [{t:'ACE 代數+寫作', time:'10-15', c:'banana'},
+               {t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '6-10': [{t:'ACE 代數+寫作', time:'10-15', c:'banana'}],
+      '6-11': [{t:'ACE 代數+寫作', time:'10-15', c:'banana'},
+               {t:'廣島線上課', time:'19:00', c:'flamingo'}],
+      '6-12': [{t:'ACE 代數+寫作', time:'10-15', c:'banana'},
+               {t:'Daniel 英文', time:'21-23', c:'lavender'}],
+      '6-13': [{t:'Andrew 顧問', time:'10:00', c:'grape'}],
+      '6-15': [{t:'ACE 代數+寫作', time:'10-15', c:'banana'},
+               {t:'廣島線上課', time:'20:30', c:'flamingo'}],
+      '6-16': [{t:'ACE 代數+寫作', time:'10-15', c:'banana'},
+               {t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '6-17': [{t:'ACE 代數+寫作', time:'10-15', c:'banana'}],
+      '6-18': [{t:'ACE 代數+寫作', time:'10-15', c:'banana'},
+               {t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '6-19': [{t:'ACE 代數+寫作', time:'10-15', c:'banana'}],
+      '6-22': [{t:'IVY SAT 技巧班', time:'9-16', c:'tangerine'},
+               {t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '6-23': [{t:'IVY SAT 技巧班', time:'9-16', c:'tangerine'}],
+      '6-24': [{t:'IVY SAT 技巧班', time:'9-16', c:'tangerine'}],
+      '6-25': [{t:'IVY SAT 技巧班', time:'9-16', c:'tangerine'},
+               {t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '6-26': [{t:'IVY SAT 技巧班', time:'9-16', c:'tangerine'}],
+      '6-29': [{t:'IVY SAT 技巧班', time:'9-16', c:'tangerine'},
+               {t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '6-30': [{t:'IVY SAT 技巧班', time:'9-16', c:'tangerine'}],
+
+      // ===== 7 月 =====
+      '7-1':  [{t:'IVY SAT 技巧班', time:'9-16', c:'tangerine'}],
+      '7-2':  [{t:'IVY SAT 技巧班', time:'9-16', c:'tangerine'},
+               {t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '7-3':  [{t:'IVY SAT 技巧班', time:'9-16', c:'tangerine'}],
+      '7-4':  [{t:'機器人課程', time:'18-21', c:'blueberry'}],
+      '7-6':  [{t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '7-9':  [{t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '7-11': [{t:'機器人課程', time:'18-21', c:'blueberry'}],
+      '7-13': [{t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '7-14': [{t:'V5 營隊', time:'9-16', c:'basil'}],
+      '7-15': [{t:'V5 營隊', time:'9-16', c:'basil'}],
+      '7-16': [{t:'V5 營隊', time:'9-16', c:'basil'},
+               {t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '7-17': [{t:'V5 營隊', time:'9-16', c:'basil'}],
+      '7-18': [{t:'V5 營隊', time:'9-16', c:'basil'},
+               {t:'機器人課程', time:'18-21', c:'blueberry'}],
+      '7-20': [{t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '7-23': [{t:'Daniel 英文', time:'20-22', c:'lavender'}],
+      '7-25': [{t:'機器人課程', time:'18-21', c:'blueberry'}],
+      '7-27': [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'廣島行前提醒', time:'21:00', c:'flamingo'}],
+      '7-28': [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '7-29': [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '7-30': [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'廣島專題', time:'全天', c:'flamingo'},
+               {t:'CI112 TPE→HIJ', time:'07:10', c:'peacock'}],
+      '7-31': [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'廣島專題', time:'全天', c:'flamingo'}],
+
+      // ===== 8 月 =====
+      '8-1':  [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'廣島專題', time:'全天', c:'flamingo'},
+               {t:'機器人課程', time:'18-21', c:'blueberry'}],
+      '8-2':  [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'廣島專題', time:'全天', c:'flamingo'}],
+      '8-3':  [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'廣島專題', time:'全天', c:'flamingo'}],
+      '8-4':  [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'廣島專題', time:'全天', c:'flamingo'}],
+      '8-5':  [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'廣島專題', time:'全天', c:'flamingo'}],
+      '8-6':  [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'廣島專題', time:'全天', c:'flamingo'}],
+      '8-7':  [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'廣島專題', time:'全天', c:'flamingo'},
+               {t:'CI113 HIJ→TPE', time:'11:35', c:'peacock'}],
+      '8-8':  [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '8-9':  [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '8-10': [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '8-11': [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '8-12': [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '8-13': [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '8-14': [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '8-15': [{t:'普台暑輔', time:'全天', c:'sage'},
+               {t:'機器人課程', time:'18-21', c:'blueberry'}],
+      '8-16': [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '8-17': [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '8-18': [{t:'普台暑輔', time:'全天', c:'sage'}],
+      '8-19': [{t:'普台暑輔 (最後一天)', time:'全天', c:'sage'}],
+      '8-22': [{t:'機器人課程', time:'18-21', c:'blueberry'}],
+      '8-29': [{t:'機器人課程', time:'18-21', c:'blueberry'}]
+    };
+
+    const YEAR = 2026;
+    const WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
+
+    function renderMonth(month) {
+      const calEl = document.getElementById('calendar');
+      const titleEl = document.getElementById('month-title');
+      titleEl.textContent = `${YEAR} 年 ${month} 月`;
+
+      calEl.innerHTML = '';
+
+      // 表頭
+      WEEKDAYS.forEach((wd, i) => {
+        const h = document.createElement('div');
+        h.className = 'day-header';
+        if (i === 0) h.classList.add('sun');
+        if (i === 6) h.classList.add('sat');
+        h.textContent = wd;
+        calEl.appendChild(h);
+      });
+
+      const firstDay = new Date(YEAR, month - 1, 1);
+      const lastDay = new Date(YEAR, month, 0).getDate();
+      const startWeekday = firstDay.getDay();
+
+      // 前面補上一個月尾巴的空格（顯示灰色日期）
+      const prevMonthLastDay = new Date(YEAR, month - 1, 0).getDate();
+      for (let i = startWeekday - 1; i >= 0; i--) {
+        const cell = document.createElement('div');
+        cell.className = 'day other';
+        const dayNum = prevMonthLastDay - i;
+        const num = document.createElement('span');
+        num.className = 'day-num';
+        num.textContent = dayNum;
+        cell.appendChild(num);
+        calEl.appendChild(cell);
+      }
+
+      // 本月日期
+      for (let d = 1; d <= lastDay; d++) {
+        const cell = document.createElement('div');
+        cell.className = 'day';
+        const wd = new Date(YEAR, month - 1, d).getDay();
+        if (wd === 0) cell.classList.add('sun');
+        if (wd === 6) cell.classList.add('sat');
+
+        const num = document.createElement('span');
+        num.className = 'day-num';
+        num.textContent = d;
+        cell.appendChild(num);
+
+        const events = EVENTS[`${month}-${d}`] || [];
+        events.forEach(ev => {
+          const evEl = document.createElement('span');
+          evEl.className = `event ev-${ev.c}`;
+          evEl.title = `${ev.time} ${ev.t}`;
+          const timeSp = document.createElement('span');
+          timeSp.className = 'event-time';
+          timeSp.textContent = ev.time;
+          evEl.appendChild(timeSp);
+          evEl.appendChild(document.createTextNode(ev.t));
+          cell.appendChild(evEl);
+        });
+
+        calEl.appendChild(cell);
+      }
+
+      // 後面補下個月開頭，填滿整週
+      const totalCells = startWeekday + lastDay;
+      const trailing = (7 - (totalCells % 7)) % 7;
+      for (let d = 1; d <= trailing; d++) {
+        const cell = document.createElement('div');
+        cell.className = 'day other';
+        const num = document.createElement('span');
+        num.className = 'day-num';
+        num.textContent = d;
+        cell.appendChild(num);
+        calEl.appendChild(cell);
+      }
+    }
+
+    document.querySelectorAll('.tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderMonth(parseInt(btn.dataset.month, 10));
+      });
+    });
+
+    // 預設顯示當月，若不在 6-8 月則顯示 6 月
+    const now = new Date();
+    const currentMonth = (now.getFullYear() === YEAR && now.getMonth() + 1 >= 6 && now.getMonth() + 1 <= 8)
+      ? now.getMonth() + 1
+      : 6;
+    document.querySelectorAll('.tab').forEach(b => {
+      b.classList.toggle('active', parseInt(b.dataset.month, 10) === currentMonth);
+    });
+    renderMonth(currentMonth);
+  </script>
+</body>
+</html>
