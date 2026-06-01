@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ethan 2026 暑期行事曆</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24313d;
+      --muted: #667380;
+      --line: #d8e0e7;
+      --paper: #ffffff;
+      --bg: #f6f8f4;
+      --blue: #2b6f9f;
+      --green: #507f5a;
+      --gold: #a56b1f;
+      --red: #ad4f45;
+      --lavender: #7167a8;
+      --soft-blue: #e8f3fa;
+      --soft-green: #ecf6ed;
+      --soft-gold: #fbf1df;
+      --soft-red: #faebe8;
+      --soft-lavender: #f0eef9;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    header {
+      padding: 28px 0 22px;
+      border-bottom: 3px solid var(--ink);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .quick-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin: 22px 0 8px;
+    }
+
+    .quick-list a {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      text-decoration: none;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    section {
+      margin-top: 32px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.45rem;
+      letter-spacing: 0;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef2f5;
+      color: #384653;
+      font-size: .92rem;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .date {
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .time {
+      white-space: nowrap;
+      color: #344553;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: .9rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tag.blue { background: var(--soft-blue); color: var(--blue); }
+    .tag.green { background: var(--soft-green); color: var(--green); }
+    .tag.gold { background: var(--soft-gold); color: var(--gold); }
+    .tag.red { background: var(--soft-red); color: var(--red); }
+    .tag.lavender { background: var(--soft-lavender); color: var(--lavender); }
+
+    .link-line {
+      margin: 0 0 12px;
+      font-size: 1rem;
+    }
+
+    .link-line a {
+      color: var(--blue);
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .month-item {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 14px;
+    }
+
+    .month-item h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      color: var(--blue);
+    }
+
+    .month-item p {
+      margin: 0;
+      color: #3c4b58;
+    }
+
+    .confirm {
+      border-left: 5px solid var(--gold);
+      background: #fff8ea;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+
+    .confirm p {
+      margin: 6px 0;
+    }
+
+    @media (max-width: 760px) {
+      main {
+        width: min(100% - 20px, 1120px);
+        padding-top: 20px;
+      }
+
+      header {
+        padding-top: 18px;
+      }
+
+      .quick-list,
+      .month-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .note {
+        display: block;
+        margin-top: 4px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .quick-list {
+        display: none;
+      }
+
+      section {
+        break-inside: avoid;
+      }
+
+      .table-wrap,
+      .month-item {
+        border-color: #aaa;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Ethan 2026 暑期行事曆</h1>
+      <p class="subtitle">整理畢業典禮、志工活動、補習課程、線上課與廣島專題。</p>
+      <nav class="quick-list" aria-label="快速跳轉">
+        <a href="#june">6 月行程</a>
+        <a href="#ace">ACE 課程</a>
+        <a href="#ivy">IVY 課程</a>
+        <a href="#daniel">DANIEL 英文</a>
+        <a href="#camp">V5 營隊</a>
+        <a href="#putai-travel">暑輔 / 班機</a>
+        <a href="#hiroshima">廣島專題</a>
+        <a href="#extra">機器人課程</a>
+        <a href="#confirm">需要確認</a>
+      </nav>
+    </header>
+
+    <section id="june">
+      <div class="section-title">
+        <h2>6 月行程</h2>
+        <span class="note">畢業典禮、土匪山志工與交通安排</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>時間</th>
+              <th>地點 / 方式</th>
+              <th>行程</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="date">6/5（五）</td><td class="time">上午</td><td></td><td><span class="tag blue">畢業典禮</span></td></tr>
+            <tr><td class="date">6/5（五）</td><td class="time">下午</td><td>嘉義土匪山</td><td><span class="tag green">志工活動</span></td></tr>
+            <tr><td class="date">6/6（六）</td><td class="time">全天</td><td>土匪山</td><td><span class="tag green">志工活動</span></td></tr>
+            <tr><td class="date">6/7（日）</td><td class="time">全天</td><td>土匪山</td><td><span class="tag green">志工活動</span></td></tr>
+            <tr><td class="date">6/8（一）</td><td class="time">中午</td><td>土匪山</td><td><span class="tag green">志工活動</span></td></tr>
+            <tr><td class="date">6/8（一）</td><td class="time">下午</td><td>嘉義或台中高鐵站</td><td>解散</td></tr>
+            <tr><td class="date">6/8（一）</td><td class="time">晚上</td><td>高鐵 / 新店外公婆家</td><td>搭高鐵前往新店外公婆家</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="ace">
+      <div class="section-title">
+        <h2>ACE 教室課程</h2>
+        <span class="note">代數 2 與寫作課程，10:00-15:00</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>時間</th>
+              <th>地點</th>
+              <th>課程</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="date">6/9（二）</td><td class="time">10:00-15:00</td><td>ACE 教室</td><td><span class="tag gold">代數 2 與寫作課程</span></td></tr>
+            <tr><td class="date">6/10（三）</td><td class="time">10:00-15:00</td><td>ACE 教室</td><td><span class="tag gold">代數 2 與寫作課程</span></td></tr>
+            <tr><td class="date">6/11（四）</td><td class="time">10:00-15:00</td><td>ACE 教室</td><td><span class="tag gold">代數 2 與寫作課程</span></td></tr>
+            <tr><td class="date">6/12（五）</td><td class="time">10:00-15:00</td><td>ACE 教室</td><td><span class="tag gold">代數 2 與寫作課程</span></td></tr>
+            <tr><td class="date">6/15（一）</td><td class="time">10:00-15:00</td><td>ACE 教室</td><td><span class="tag gold">代數 2 與寫作課程</span></td></tr>
+            <tr><td class="date">6/16（二）</td><td class="time">10:00-15:00</td><td>ACE 教室</td><td><span class="tag gold">代數 2 與寫作課程</span></td></tr>
+            <tr><td class="date">6/17（三）</td><td class="time">10:00-15:00</td><td>ACE 教室</td><td><span class="tag gold">代數 2 與寫作課程</span></td></tr>
+            <tr><td class="date">6/18（四）</td><td class="time">10:00-15:00</td><td>ACE 教室</td><td><span class="tag gold">代數 2 與寫作課程</span></td></tr>
+            <tr><td class="date">6/19（五）</td><td class="time">10:00-15:00</td><td>ACE 教室</td><td><span class="tag gold">代數 2 與寫作課程</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="ivy">
+      <div class="section-title">
+        <h2>IVY 教室課程</h2>
+        <span class="note">SAT 技巧班，09:00-16:00</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>時間</th>
+              <th>地點</th>
+              <th>課程</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="date">6/22（一）</td><td class="time">09:00-16:00</td><td>IVY 教室</td><td><span class="tag red">SAT 技巧班</span></td></tr>
+            <tr><td class="date">6/23（二）</td><td class="time">09:00-16:00</td><td>IVY 教室</td><td><span class="tag red">SAT 技巧班</span></td></tr>
+            <tr><td class="date">6/24（三）</td><td class="time">09:00-16:00</td><td>IVY 教室</td><td><span class="tag red">SAT 技巧班</span></td></tr>
+            <tr><td class="date">6/25（四）</td><td class="time">09:00-16:00</td><td>IVY 教室</td><td><span class="tag red">SAT 技巧班</span></td></tr>
+            <tr><td class="date">6/26（五）</td><td class="time">09:00-16:00</td><td>IVY 教室</td><td><span class="tag red">SAT 技巧班</span></td></tr>
+            <tr><td class="date">6/29（一）</td><td class="time">09:00-16:00</td><td>IVY 教室</td><td><span class="tag red">SAT 技巧班</span></td></tr>
+            <tr><td class="date">6/30（二）</td><td class="time">09:00-16:00</td><td>IVY 教室</td><td><span class="tag red">SAT 技巧班</span></td></tr>
+            <tr><td class="date">7/1（三）</td><td class="time">09:00-16:00</td><td>IVY 教室</td><td><span class="tag red">SAT 技巧班</span></td></tr>
+            <tr><td class="date">7/2（四）</td><td class="time">09:00-16:00</td><td>IVY 教室</td><td><span class="tag red">SAT 技巧班</span></td></tr>
+            <tr><td class="date">7/3（五）</td><td class="time">09:00-16:00</td><td>IVY 教室</td><td><span class="tag red">SAT 技巧班</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="consulting">
+      <div class="section-title">
+        <h2>顧問安排</h2>
+        <span class="note">IVY Andrew 顧問</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>時間</th>
+              <th>地點</th>
+              <th>行程</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="date">6/13（六）</td><td class="time">10:00</td><td>IVY</td><td><span class="tag blue">Andrew 顧問</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="daniel">
+      <div class="section-title">
+        <h2>DANIEL 英文線上課</h2>
+        <span class="note">每次 2 小時</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>時間</th>
+              <th>課程</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="date">6/9（二）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">6/12（五）</td><td class="time">21:00-23:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">6/16（二）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">6/18（四）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">6/22（一）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">6/25（四）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">6/29（一）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">7/2（四）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">7/6（一）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">7/9（四）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">7/13（一）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">7/16（四）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">7/20（一）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+            <tr><td class="date">7/23（四）</td><td class="time">20:00-22:00</td><td><span class="tag lavender">英文線上課</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="camp">
+      <div class="section-title">
+        <h2>66994V V5 營隊</h2>
+        <span class="note">7/14-7/18，09:00-16:00</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>時間</th>
+              <th>代碼</th>
+              <th>行程</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="date">7/14（二）</td><td class="time">09:00-16:00</td><td>66994V</td><td><span class="tag green">V5 營隊</span></td></tr>
+            <tr><td class="date">7/15（三）</td><td class="time">09:00-16:00</td><td>66994V</td><td><span class="tag green">V5 營隊</span></td></tr>
+            <tr><td class="date">7/16（四）</td><td class="time">09:00-16:00</td><td>66994V</td><td><span class="tag green">V5 營隊</span></td></tr>
+            <tr><td class="date">7/17（五）</td><td class="time">09:00-16:00</td><td>66994V</td><td><span class="tag green">V5 營隊</span></td></tr>
+            <tr><td class="date">7/18（六）</td><td class="time">09:00-16:00</td><td>66994V</td><td><span class="tag green">V5 營隊</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="putai-travel">
+      <div class="section-title">
+        <h2>普台高中暑輔與廣島專題班機</h2>
+        <span class="note">7/27-8/19 普台高中暑輔；7/30-8/7 廣島專題</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>時間</th>
+              <th>地點 / 方式</th>
+              <th>行程</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="date">7/27（一）-8/19（三）</td>
+              <td class="time">全天</td>
+              <td>普台高中</td>
+              <td><span class="tag blue">暑輔</span></td>
+            </tr>
+            <tr>
+              <td class="date">7/30（四）-8/7（五）</td>
+              <td class="time">全天</td>
+              <td>廣島</td>
+              <td><span class="tag green">廣島專題</span></td>
+            </tr>
+            <tr>
+              <td class="date">7/30（四）</td>
+              <td class="time">07:10-10:35</td>
+              <td>中華航空 CI112，TPE-HIJ</td>
+              <td>去程班機：台北桃園至廣島</td>
+            </tr>
+            <tr>
+              <td class="date">8/7（五）</td>
+              <td class="time">11:35-13:15</td>
+              <td>中華航空 CI113，HIJ-TPE</td>
+              <td>回程班機：廣島至台北桃園</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="hiroshima">
+      <div class="section-title">
+        <h2>廣島專題線上課</h2>
+        <span class="note">固定授課連結</span>
+      </div>
+      <p class="link-line">Google Meet：<a href="https://meet.google.com/rpx-zjgh-psw">https://meet.google.com/rpx-zjgh-psw</a></p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>時間</th>
+              <th>主持 / 講者</th>
+              <th>主題</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="date">5/26（二）</td>
+              <td class="time">19:00-20:30</td>
+              <td>講者：賴彥甫老師</td>
+              <td>誰的故事被留下？從地景設計看歷史如何被記住與遺忘</td>
+            </tr>
+            <tr>
+              <td class="date">6/2（二）</td>
+              <td class="time">19:00-20:30</td>
+              <td>主持：賴彥甫老師；講者：蕭皓文老師</td>
+              <td>以科學角度探討核輻射的前世今生</td>
+            </tr>
+            <tr>
+              <td class="date">6/11（四）</td>
+              <td class="time">19:00-20:30</td>
+              <td>主持：賴彥甫老師；講者：王騰老師</td>
+              <td>核爆之後：重塑世界的國際角力與協議</td>
+            </tr>
+            <tr>
+              <td class="date">6/15（一）</td>
+              <td class="time">20:30-22:00</td>
+              <td>主持：賴彥甫老師；講者：陳晨羚老師</td>
+              <td>從廣島到福島：日本人如何看待核彈與核能？</td>
+            </tr>
+            <tr>
+              <td class="date">7/27（一）</td>
+              <td class="time">21:00-22:00</td>
+              <td></td>
+              <td>行前提醒</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="extra">
+      <div class="section-title">
+        <h2>Ethan 機器人課程</h2>
+        <span class="note">週六晚上 18:00-21:00</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>月份</th>
+              <th>日期</th>
+              <th>時間</th>
+              <th>行程 / 備註</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>7 月</td><td class="date">7/4、7/11、7/18、7/25</td><td class="time">18:00-21:00</td><td><span class="tag lavender">機器人課程</span></td></tr>
+            <tr><td>8 月</td><td class="date">8/1、8/8、8/15、8/22、8/29</td><td class="time">18:00-21:00</td><td>機器人課程；8/8 父親節、mall 比賽放假</td></tr>
+            <tr><td>9 月</td><td class="date">9/5、9/12、9/19、9/26</td><td class="time">18:00-21:00</td><td>機器人課程；9/26 中秋連假</td></tr>
+            <tr><td>10 月</td><td class="date">10/3、10/10、10/17、10/24、10/31</td><td class="time">18:00-21:00</td><td>機器人課程；10/10 國慶連假；10/24 AST 比賽</td></tr>
+            <tr><td>11 月</td><td class="date">11/7、11/14、11/21、11/28</td><td class="time">18:00-21:00</td><td><span class="tag lavender">機器人課程</span></td></tr>
+            <tr><td>12 月</td><td class="date">12/5、12/12、12/19、12/26</td><td class="time">18:00-21:00</td><td>機器人課程；12/19 PAS 比賽</td></tr>
+            <tr><td>1 月</td><td class="date">1/2、1/9、1/16、1/23、1/30</td><td class="time">18:00-21:00</td><td>機器人課程；1/2 元旦連假</td></tr>
+            <tr><td>2 月</td><td class="date">2/6、2/13、2/20、2/27</td><td class="time">18:00-21:00</td><td>機器人課程；2/6、2/13 農曆春節</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="confirm">
+      <div class="section-title">
+        <h2>需要確認</h2>
+      </div>
+      <div class="confirm">
+        <p>IVY 教室時間原文為「AM9:001-PM4:00」，此處先整理為 09:00-16:00。</p>
+        <p>圖片補充行程已整理為 Ethan 機器人課程，時間為週六 18:00-21:00；括號內原始備註保留。</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
